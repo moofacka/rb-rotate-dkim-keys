@@ -1,19 +1,25 @@
-# rb-template
+# rb-rotate-dkim-keys
+
+```powershell
+$ServicePrincipalId = '<ObjectId>'
+$ServicePrincipal = Get-MgServicePrincipal -Filter "AppId eq '00000002-0000-0ff1-ce00-000000000000'"
+$AppRole = $ServicePrincipal.AppRoles | Where-Object { $_.Value -eq 'Exchange.ManageAsApp' -and $_.AllowedMemberTypes -contains 'Application' }
+$BodyParameter = @{
+    PrincipalId = $ServicePrincipalId
+    ResourceId  = $ServicePrincipal.Id
+    AppRoleId   = $AppRole.Id
+}
+New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $ServicePrincipalId -BodyParameter $BodyParameter
+```
 
 ## SYNOPSIS
-
-    <Brief one-line description of what the runbook does. Start with a verb.>
+    An Azure Automation runbook that rotates DKIM keys for accepted domains in Exchange Online.
 
 ## DESCRIPTION
+    This runbook will rotate DKIM keys for all enabled accepted domains in Exchange Online.
 
-    <Detailed description of the runbook’s purpose and behavior.>
+## PARAMETER Organization
+    [Mandatory] MOERA domain of the organization, contoso.onmicrosoft.com.
 
-    <Explain what the runbook does, under what conditions it runs, and any important validations or safeguards.>
-
-    <If relevant, describe required permissions, identity context, or execution constraints.>
-
-## PARAMETER <ParameterName>
-
-    <Description of the parameter and what it represents.>
-
-    <Include constraints, expected format, and validation behavior.>
+## PARAMETER Organization
+    [Mandatory] Size of the private key, e.g 1024 or 2048.
