@@ -22,6 +22,7 @@ param (
 )
 
 $ErrorActionPreference = 'Stop'
+$VerbosePreference = 'SilentlyContinue'
 
 trap {
     Write-Error "Unhandled error caught: $($_.Exception.Message)"
