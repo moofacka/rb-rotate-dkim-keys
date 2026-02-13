@@ -21,5 +21,5 @@ New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $ServicePrincipalId 
 ## PARAMETER Organization
     [Mandatory] MOERA domain of the organization, contoso.onmicrosoft.com.
 
-## PARAMETER Organization
+## PARAMETER KeySize
     [Mandatory] Size of the private key, e.g 1024 or 2048.
