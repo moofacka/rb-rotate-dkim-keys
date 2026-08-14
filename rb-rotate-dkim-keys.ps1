@@ -1,15 +1,24 @@
-#Requires -Modules @{ ModuleName = "ExchangeOnlineManagement"; ModuleVersion = "3.6.0" }
+#Requires -Modules ExchangeOnlineManagement
 
 <#
 .SYNOPSIS
-    An Azure Automation runbook that rotates DKIM keys for accepted domains in Exchange Online.
+    Rotates Exchange Online DKIM keys for active custom domains using Azure Automation Managed Identity.
 
 .DESCRIPTION
-    This runbook will rotate DKIM keys for all enabled accepted domains in Exchange Online.
+    This script connects to Exchange Online via Managed Identity and identifies all active DKIM
+    configurations excluding default MOERA (*.onmicrosoft.com) domains.
+
+    It executes a key rotation (`Rotate-DkimSigningConfig`) for each matching domain using the
+    specified key size, then outputs the updated DKIM configuration details as JSON objects for
+    logging and auditing purposes.
+
+    Permissions:
+    - Exchange.ManageAsApp
 
 .NOTES
     Version History:
-    0.0.1 - (2026-02-06) Inital script development
+    0.0.1 - (2026-02-06) Initial script development
+    0.0.2 - (2026-08-14) Updated header
 #>
 
 param (
